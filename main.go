@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-        jisho "src/github.com/Horryportier/go-jisho"
+        jisho "github.com/Horryportier/go-jisho"
 )
 
 func main() {
