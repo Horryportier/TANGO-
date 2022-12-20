@@ -19,3 +19,11 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd){
 func SearchingUpdate(m model, msg tea.Msg) (model, tea.Cmd){
         return m, nil
 }
+
+func SearchView(m model) (string) {
+        return ""
+}
+
+func SearchingView(m model) (string) {
+        return ""
+}
