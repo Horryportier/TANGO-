@@ -1,8 +1,8 @@
 package main
 
 import (
-        app "src/tango/v1/app"
-        utils "src/tango/v1/utils"
+	app "src/tango/v1/app"
+	"src/tango/v1/utils"
 )
 
 func main() {

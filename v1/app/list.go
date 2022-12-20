@@ -10,10 +10,15 @@ type ListModel struct {
 }
 
 
+func ListInit() ListModel {
+        return ListModel{}
+}
+
+
 func ListUpdate(m model, msg tea.Msg) (model, tea.Cmd){
         return m, nil
 }
 
 func ListView(m model) (string){
-        return ""
+        return "List"
 }

@@ -1,31 +1,40 @@
 package app
 
 import (
-	utils "src/tango/v1/utils"
+	"fmt"
 
+	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type State int
+type(
+        State int
+        errMsg error
+)
 
 const (
 	Search State = iota
 	Searching
 	List
+        Err
 )
 
 type model struct {
 	state     State
-	searchBar SearchModel
-	results   ListModel
+	SearchModel SearchModel
+	ListModel ListModel
+        Error error
 }
 
 func initialModel() model {
-	return model{}
+	return model{state: Search,
+        SearchModel: SearchInit(),
+        ListModel: ListInit(),
+        }
 }
 
 func (m model) Init() tea.Cmd {
-	return nil
+	return textinput.Blink 
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -36,6 +45,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return SearchingUpdate(m, msg)
 	case List:
 		return ListUpdate(m, msg)
+        case Err:
+                return m, tea.Quit
 	}
 	return m, tea.Quit
 }
@@ -48,8 +59,10 @@ func (m model) View() string {
 		return SearchingView(m)
 	case List:
 		return ListView(m)
+        case Err:
+                return fmt.Sprintf("Error: %v",m.Error)
 	}
-	return "POG"
+        return "OPPPS :("
 }
 
 func Start() error {
