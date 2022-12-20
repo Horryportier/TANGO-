@@ -17,6 +17,9 @@ func SearchInit() SearchModel {
 	input.CharLimit = 64
 	input.Focus()
 	input.Placeholder = "TANGO"
+        input.PromptStyle = PromptStyle.Copy()
+        input.BackgroundStyle = Background.Copy()
+        input.TextStyle = Text.Copy()
 	//paginator
 	pagin := paginator.New()
 
@@ -30,6 +33,7 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 		switch keypress := msg.String(); keypress {
 		case "esc":
 			return m, tea.Quit
+                case "enter":
 		}
 	case errMsg:
 		m.Error = msg

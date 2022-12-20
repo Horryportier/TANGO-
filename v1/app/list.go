@@ -3,7 +3,10 @@ package app
 import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
+        jisho "github.com/Horryportier/go-jisho"
 )
+
+var data jisho.Data
 
 type ListModel struct {
         list list.Model
