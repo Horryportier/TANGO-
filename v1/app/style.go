@@ -12,16 +12,19 @@ var (
 	accentColor1    = lipgloss.Color("#0a0047")
 	accentColor2    = lipgloss.Color("#004687")
 
+
+        appStyle = lipgloss.NewStyle(). 
+                        Padding(1,2)
+
 	PromptStyle = lipgloss.
-                        NewStyle().
+			NewStyle().
 			Background(backgroundColor).
 			Foreground(primaryColor).
-			Align(lipgloss.Left)
+			Align(lipgloss.Left).
+                        PaddingLeft(2)
 
-	Background = lipgloss.
-                        NewStyle().
-			Foreground(backgroundColor)
 	Text = lipgloss.
-                NewStyle().
-		Foreground(primaryColor)
+		NewStyle().
+		Foreground(primaryColor).
+                Background(secondaryColor)
 )

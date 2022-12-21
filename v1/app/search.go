@@ -1,10 +1,13 @@
 package app
 
 import (
+
+	jisho "github.com/Horryportier/go-jisho"
 	"github.com/charmbracelet/bubbles/paginator"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 )
+
 
 type SearchModel struct {
 	Input     textinput.Model
@@ -17,9 +20,8 @@ func SearchInit() SearchModel {
 	input.CharLimit = 64
 	input.Focus()
 	input.Placeholder = "TANGO"
-        input.PromptStyle = PromptStyle.Copy()
-        input.BackgroundStyle = Background.Copy()
-        input.TextStyle = Text.Copy()
+	input.PromptStyle = PromptStyle.Copy()
+	input.TextStyle = Text.Copy()
 	//paginator
 	pagin := paginator.New()
 
@@ -33,7 +35,17 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 		switch keypress := msg.String(); keypress {
 		case "esc":
 			return m, tea.Quit
-                case "enter":
+		case "enter":
+                        val := m.SearchModel.Input.Value()
+                        var err error
+                        var word jisho.Word
+                        word, err = SearchForPhrase(val)
+                        if err != nil {
+                                return m, tea.Quit
+                        }
+                        Word = word
+                        m.state = List
+                        return m, nil
 		}
 	case errMsg:
 		m.Error = msg
@@ -55,4 +67,8 @@ func SearchView(m model) string {
 
 func SearchingView(m model) string {
 	return m.SearchModel.Paginator.View()
+}
+
+func SearchForPhrase(word string) (jisho.Word, error) {
+	return jisho.Search(word)
 }

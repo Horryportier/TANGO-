@@ -1,20 +1,22 @@
 package app
 
-
 import (
-        jisho "github.com/Horryportier/go-jisho"
+	"fmt"
+
+	jisho "github.com/Horryportier/go-jisho"
 )
 
 type item struct {
-        title string
-        descrition string
         data jisho.Data
 }
 
 
 
-func (i item) Titile() string { return i.title }
-func (i item) Descrition() string { return i.descrition}
-func (i item) FilterValue() string { return i.title }
+func (i item) Titile() string { return i.data.Slug}
+func (i item) Descrition() string { return fmt.Sprint(i.data.Jlpt)}
+func (i item) FilterValue() string { return i.data.Slug}
 
 
+func ItemGenerator(data jisho.Data) (item){
+        return item{data: data}
+}
