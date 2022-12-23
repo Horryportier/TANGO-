@@ -1,36 +1,35 @@
 package app
 
-
 import (
-	"fmt"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
-type(
-        State int
-        errMsg error
+type (
+	State  int
+	errMsg error
 )
 
 const (
 	Search State = iota
 	Searching
 	List
-        Err
+	Err
 )
 
 type model struct {
-	state     State
+	state       State
 	SearchModel SearchModel
-	ListModel ListModel
-        Error error
+	ListModel   ListModel
+	Error       error
 }
 
 func initialModel() model {
 	return model{state: Search,
-        SearchModel: SearchInit(),
-        ListModel: ListInit(),
-        }
+		SearchModel: SearchInit(),
+		ListModel:   ListInit(),
+	}
 }
 
 func (m model) Init() tea.Cmd {
@@ -45,28 +44,31 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return SearchingUpdate(m, msg)
 	case List:
 		return ListUpdate(m, msg)
-        case Err:
-                return m, tea.Quit
+	case Err:
+		return m, tea.Quit
 	}
 	return m, tea.Quit
 }
 
 func (m model) View() string {
-	switch m.state {
-	case Search:
-		return SearchView(m)
-	case Searching:
-		return SearchingView(m)
-	case List:
-		return ListView(m)
-        case Err:
-                return fmt.Sprintf("Error: %v",m.Error)
-	}
-        return "OPPPS :("
+	var view string
+
+	view = func() string {
+		res := lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			SearchView(m),
+                        " | ",
+			SearchingView(m),
+		)
+		res = lipgloss.JoinVertical(lipgloss.Left, res, ListView(m))
+
+		return res
+	}()
+	return view
 }
 
 func Start() error {
-	p := tea.NewProgram(initialModel())
+	p := tea.NewProgram(initialModel(), tea.WithAltScreen())
 	if err := p.Start(); err != nil {
 		return err
 	}

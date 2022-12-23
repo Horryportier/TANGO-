@@ -1,8 +1,10 @@
 package app
 
 import (
+	"src/tango/v1/utils"
 
 	jisho "github.com/Horryportier/go-jisho"
+	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/paginator"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
@@ -38,12 +40,10 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 		case "enter":
                         val := m.SearchModel.Input.Value()
                         var err error
-                        var word jisho.Word
-                        word, err = SearchForPhrase(val)
+                        m.ListModel.List, err = SearchForPhrase(val, m.ListModel.List)
                         if err != nil {
                                 return m, tea.Quit
                         }
-                        Word = word
                         m.state = List
                         return m, nil
 		}
@@ -69,6 +69,17 @@ func SearchingView(m model) string {
 	return m.SearchModel.Paginator.View()
 }
 
-func SearchForPhrase(word string) (jisho.Word, error) {
-	return jisho.Search(word)
+func SearchForPhrase(word string, listItems list.Model) (list.Model, error) {
+        Word, err := jisho.Search(word)
+
+	numOfEntries := Word.Len()
+	entries := Word.GetEntries(utils.MakeRange(0, numOfEntries-1)...)
+
+	items := make([]list.Item, numOfEntries)
+	for i := 0; i < numOfEntries; i++ {
+		items[i] = ItemGenerator(entries[i])
+	}
+
+        newList := list.New(items, list.NewDefaultDelegate(), 1, 0)
+        return newList,  err
 }
