@@ -37,9 +37,8 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 			var str strings.Builder
 
 			str.WriteString(
-				fmt.Sprintf("%s %s -> %s", selectedItemStyle.Render("=>"),
-					titleStyle.Render(data.Slug),
-					descStyle.Render(data.Senses[0].EnglishDefinitions[0])))
+				fmt.Sprintf("%s %s", selectedItemStyle.Render("=>"),
+					titleStyle.Render(data.Slug)))
 
 			return str.String()
 		}
@@ -48,9 +47,8 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 			var str strings.Builder
 
 			str.WriteString(
-				fmt.Sprintf("%s %s -> %s", selectedItemStyle.Render("# "),
-					titleStyle.Render(data.Slug),
-					descStyle.Render(data.Senses[0].EnglishDefinitions[0])))
+				fmt.Sprintf("%s %s", selectedItemStyle.Render("# "),
+					titleStyle.Render(data.Slug)))
 
 			return str.String()
 		}
