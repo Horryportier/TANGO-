@@ -3,6 +3,10 @@
 
 This Tui is an japanese dictionary for ppl that can't bother to use broswer. ;)
 
+# !Warning
+This tool is under development. It means it works but it may be a little buggy.
+***At the moment only romaji, engilish, hiragana and katakana are supported no KANJI***
+
 <img src="https://raw.githubusercontent.com/Horryportier/TANGO-/main/TANGO.png"/>
 
 ## Instal 
@@ -18,5 +22,3 @@ go install -v
 rm ~/go/bin/openup
 ```
 
-# !Warning
-This tool is under development. It means it works but it may be a little buggy.
