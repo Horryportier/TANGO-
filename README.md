@@ -3,6 +3,8 @@
 
 This Tui is an japanese dictionary for ppl that can't bother to use broswer. ;)
 
+<img src="https://raw.githubusercontent.com/Horryportier/TANGO-/main/TANGO.png"/>
+
 ## Instal 
 make sure you have golang installed.
 ```bash
