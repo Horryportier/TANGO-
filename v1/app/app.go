@@ -1,7 +1,6 @@
 package app
 
 import (
-
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -16,6 +15,7 @@ const (
 	Searching
 	List
 	Err
+	Item
 )
 
 type model struct {
@@ -37,17 +37,23 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	var cmd tea.Cmd
+	var cmds []tea.Cmd
 	switch m.state {
 	case Search:
-		return SearchUpdate(m, msg)
+		m, cmd = SearchUpdate(m, msg)
+		cmds = append(cmds, cmd)
 	case Searching:
-		return SearchingUpdate(m, msg)
+		m, cmd = SearchingUpdate(m, msg)
+		cmds = append(cmds, cmd)
 	case List:
-		return ListUpdate(m, msg)
+		m, cmd = ListUpdate(m, msg)
+		cmds = append(cmds, cmd)
 	case Err:
-		return m, tea.Quit
+		cmd = tea.Quit
+		cmds = append(cmds, cmd)
 	}
-	return m, tea.Quit
+	return m, tea.Batch(cmds...)
 }
 
 func (m model) View() string {
@@ -57,10 +63,13 @@ func (m model) View() string {
 		res := lipgloss.JoinHorizontal(
 			lipgloss.Left,
 			SearchView(m),
-                        " | ",
+			" | ",
 			SearchingView(m),
 		)
-		res = lipgloss.JoinVertical(lipgloss.Left, res, ListView(m))
+
+		res = lipgloss.JoinVertical(lipgloss.Left, 
+                headerStyle.Render(res),
+                ListView(m))
 
 		return res
 	}()

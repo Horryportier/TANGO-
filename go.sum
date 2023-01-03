@@ -1,5 +1,7 @@
 github.com/Horryportier/go-jisho v0.0.0-20221221185248-3e0c050d03b5 h1:LJNFOVku6+iNSoBSRgZZ6ccmeLXMvO+iP7HRp1uGTW4=
 github.com/Horryportier/go-jisho v0.0.0-20221221185248-3e0c050d03b5/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
+github.com/Horryportier/go-jisho v0.0.0-20230103161237-d3ba95b70299 h1:upLXvqEogHlNs1mEqxYh6SWT9QCRlRAtlAsCyIHU8wc=
+github.com/Horryportier/go-jisho v0.0.0-20230103161237-d3ba95b70299/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=
 github.com/atotto/clipboard v0.1.4/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/charmbracelet/bubbles v0.14.0 h1:DJfCwnARfWjZLvMglhSQzo76UZ2gucuHPy9jLWX45Og=

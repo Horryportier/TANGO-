@@ -1,10 +1,13 @@
 package app
 
 import (
+	"fmt"
+	"io"
 	"strings"
 
 	jisho "github.com/Horryportier/go-jisho"
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/bubbles/list"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 type item struct {
@@ -13,47 +16,53 @@ type item struct {
 	data        jisho.Data
 }
 
-func (i item) Title() string {
-	var msg strings.Builder
+type itemDelegate struct{}
 
-	msg.WriteString(addStyle("=> ", i.data.Slug, accentStyle1, SecondaryStyle))
+func (d itemDelegate) Height() int                               { return 1 }
+func (d itemDelegate) Spacing() int                              { return 0 }
+func (d itemDelegate) Update(msg tea.Msg, m *list.Model) tea.Cmd { return nil }
+func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list.Item) {
 
-	i.title = msg.String()
-	return i.title
+	fn := func(data jisho.Data) string { return "" }
+
+	i, ok := listItem.(item)
+	if !ok {
+		return
+	}
+
+	data := i.data
+
+	if index == m.Index() {
+		fn = func(data jisho.Data) string {
+			var str strings.Builder
+
+			str.WriteString(
+				fmt.Sprintf("%s %s -> %s", selectedItemStyle.Render("=>"),
+					titleStyle.Render(data.Slug),
+					descStyle.Render(data.Senses[0].EnglishDefinitions[0])))
+
+			return str.String()
+		}
+	} else {
+		fn = func(data jisho.Data) string {
+			var str strings.Builder
+
+			str.WriteString(
+				fmt.Sprintf("%s %s -> %s", selectedItemStyle.Render("# "),
+					titleStyle.Render(data.Slug),
+					descStyle.Render(data.Senses[0].EnglishDefinitions[0])))
+
+			return str.String()
+		}
+	}
+
+	fmt.Fprint(w, fn(data))
 }
 
-func (i item) Description() string {
-	var msg strings.Builder
-
-	msg.WriteString(addStyle("Translation: ",
-		i.data.Senses[0].EnglishDefinitions[0],
-		PrimaryStyle,
-		SecondaryStyle))
-
-	msg.WriteRune('\n')
-
-	msg.WriteString(addStyle("Part of speach: ",
-		i.data.Senses[0].PartsOfSpeech[0],
-		PrimaryStyle,
-		SecondaryStyle))
-
-	i.description = msg.String()
-	return i.description
+func (i item) FilterValue() string {
+	return ""
 }
-
-func (i item) AdditionalData() string {
-        return ""
-}
-
-func (i item) FilterValue() string { return "LIGMA" }
 
 func ItemGenerator(data jisho.Data) item {
 	return item{data: data}
-}
-
-func addStyle(title, desc string, titleStyle, descStyle lipgloss.Style) string {
-	var msg strings.Builder
-	msg.WriteString(titleStyle.Render(title))
-	msg.WriteString(descStyle.Render(desc))
-	return msg.String()
 }

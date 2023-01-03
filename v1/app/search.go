@@ -10,7 +10,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-
 type SearchModel struct {
 	Input     textinput.Model
 	Paginator paginator.Model
@@ -38,14 +37,18 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 		case "esc":
 			return m, tea.Quit
 		case "enter":
-                        val := m.SearchModel.Input.Value()
-                        var err error
-                        m.ListModel.List, err = SearchForPhrase(val, m.ListModel.List)
-                        if err != nil {
-                                return m, tea.Quit
-                        }
-                        m.state = List
-                        return m, nil
+			val := m.SearchModel.Input.Value()
+			var err error
+
+			items := SearchForPhrase(val)
+			cmd = m.ListModel.List.SetItems(items)
+
+			m.ListModel.List.SetHeight(len(items)*2)
+			if err != nil {
+				return m, tea.Quit
+			}
+			m.state = List
+			return m, cmd
 		}
 	case errMsg:
 		m.Error = msg
@@ -69,8 +72,8 @@ func SearchingView(m model) string {
 	return m.SearchModel.Paginator.View()
 }
 
-func SearchForPhrase(word string, listItems list.Model) (list.Model, error) {
-        Word, err := jisho.Search(word)
+func SearchForPhrase(word string) []list.Item {
+	Word, _ := jisho.Search(word)
 
 	numOfEntries := Word.Len()
 	entries := Word.GetEntries(utils.MakeRange(0, numOfEntries-1)...)
@@ -79,7 +82,5 @@ func SearchForPhrase(word string, listItems list.Model) (list.Model, error) {
 	for i := 0; i < numOfEntries; i++ {
 		items[i] = ItemGenerator(entries[i])
 	}
-
-        newList := list.New(items, list.NewDefaultDelegate(), 1, 0)
-        return newList,  err
+	return items
 }
