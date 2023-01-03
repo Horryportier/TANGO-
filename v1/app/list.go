@@ -132,7 +132,7 @@ func ViewDetials(data jisho.Data) string {
 				PrimaryStyle.Render("JP/Reading")))
 		s.WriteRune('\n')
 		for i, val := range data.Japanese {
-			s.WriteString(fmt.Sprintf("%v. %s %s",
+			s.WriteString(fmt.Sprintf("%v. %s [%s]",
 				i+1,
 				val.Word, val.Reading))
 			s.WriteRune('\n')
@@ -155,7 +155,8 @@ func ViewDetials(data jisho.Data) string {
 			s.WriteString(fmt.Sprintf("%v. %s %s",
 				i+1,
 				strings.Join(val.EnglishDefinitions, ","),
-				strings.Join(val.PartsOfSpeech, ",")))
+				accentStyle.Render(
+					strings.Join(val.PartsOfSpeech, ","))))
 			s.WriteRune('\n')
 		}
 		return SecondaryStyle.Render(s.String())
