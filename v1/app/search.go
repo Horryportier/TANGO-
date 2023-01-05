@@ -4,6 +4,7 @@ import (
 	"src/tango/v1/utils"
 
 	jisho "github.com/Horryportier/go-jisho"
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/paginator"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -33,10 +34,10 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 	var cmd tea.Cmd
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		switch keypress := msg.String(); keypress {
-		case "esc":
+		switch {
+                case key.Matches(msg, keys.Quit):
 			return m, tea.Quit
-		case "enter":
+                case key.Matches(msg, keys.Enter):
 			val := m.SearchModel.Input.Value()
 			var err error
 

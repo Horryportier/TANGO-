@@ -8,7 +8,7 @@ var (
 	// theme
 	primaryColor    = lipgloss.Color("#00c940")
 	secondaryColor  = lipgloss.Color("#909dc0")
-	backgroundColor = lipgloss.Color("#2a2a2a")
+	inactiveColor = lipgloss.Color("#8a8a8a")
 	accentColor     = lipgloss.Color("#ff2a42")
 
 	appStyle = lipgloss.NewStyle().
@@ -36,5 +36,5 @@ var (
 	PrimaryStyle    = lipgloss.NewStyle().Foreground(primaryColor)
 	SecondaryStyle  = lipgloss.NewStyle().Foreground(secondaryColor)
 	accentStyle    = lipgloss.NewStyle().Foreground(accentColor)
-	backgroundStyle = lipgloss.NewStyle().Background(backgroundColor)
+	inactiveStyle = lipgloss.NewStyle().Foreground(inactiveColor)
 )

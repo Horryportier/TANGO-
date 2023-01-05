@@ -2,9 +2,11 @@ package app
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	jisho "github.com/Horryportier/go-jisho"
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -13,8 +15,7 @@ import (
 )
 
 var (
-	Word     jisho.Word
-	Selected bool
+	Word jisho.Word
 )
 
 type ListModel struct {
@@ -57,20 +58,31 @@ func ListUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 		m.ListModel.List.SetSize(msg.Width-h, msg.Height-v)
 
 	case tea.KeyMsg:
-		switch keypress := msg.String(); keypress {
-		case "esc":
+		switch {
+		case key.Matches(msg, keys.Quit):
 			return m, tea.Quit
-		case "tab":
+		case key.Matches(msg, keys.Tab):
 			m.state = Search
 			m.SearchModel.Input.Reset()
 			return m, nil
 
-		case "enter":
-			if Selected == false {
-				Selected = true
-			} else {
-				Selected = false
+		case key.Matches(msg, keys.Enter):
+			return m, nil
+		case key.Matches(msg, keys.Clip):
+			i := func(m model) jisho.Data {
+				listItem := m.ListModel.List.SelectedItem()
+
+				i, ok := listItem.(item)
+
+				if !ok {
+					return jisho.Data{}
+				}
+
+				return i.data
 			}
+			content := DetialsView(i(m), m.ListModel.List.Width(), true)
+
+			copyToClipord(content)
 			return m, nil
 		}
 	case errMsg:
@@ -96,19 +108,18 @@ func ListView(m model) string {
 		return ""
 	}
 
-	if Selected {
-		desc = ViewDetials(i.data)
-	}
+	desc = DetialsView(i.data, m.ListModel.List.Width(), false)
 	return appStyle.Render(
 		lipgloss.JoinHorizontal(lipgloss.Left, m.ListModel.List.View(), desc))
 }
 
-func ViewDetials(data jisho.Data) string {
+// seperate styling from genereing leyout.
+func DetialsView(data jisho.Data, listWidth int, noStyle bool) string {
 	var str strings.Builder
 
 	// japanes headear
 	str.WriteString(fmt.Sprintf("%s %v %s %v",
-		accentStyle.Render("# "),
+		accentStyle.Render("#"),
 		PrimaryStyle.Render(data.Slug),
 		accentStyle.Render("source: "),
 		SecondaryStyle.Render(
@@ -128,7 +139,7 @@ func ViewDetials(data jisho.Data) string {
 	jp := func(data jisho.Data) string {
 		var s strings.Builder
 		s.WriteString(
-			fmt.Sprintf("%s %s", accentStyle.Render("#"),
+			fmt.Sprintf("%s %s", accentStyle.Render("##"),
 				PrimaryStyle.Render("JP/Reading")))
 		s.WriteRune('\n')
 		for i, val := range data.Japanese {
@@ -148,7 +159,7 @@ func ViewDetials(data jisho.Data) string {
 	eng := func(data jisho.Data) string {
 		var s strings.Builder
 		s.WriteString(
-			fmt.Sprintf("%s %s", accentStyle.Render("#"),
+                        fmt.Sprintf("%s %s", accentStyle.Render("##"),
 				PrimaryStyle.Render("ENG definition")))
 		s.WriteRune('\n')
 		for i, val := range data.Senses {
@@ -165,5 +176,35 @@ func ViewDetials(data jisho.Data) string {
 	str.WriteRune('\n')
 	str.WriteString("___")
 
-	return appStyle.Render(str.String())
+	rd := func(str string) string {
+		var s strings.Builder
+		var offset int = appStyle.GetPaddingLeft()
+		width := termWidth - listWidth - offset
+
+		strs := strings.Split(str, "\n")
+
+		for _, val := range strs {
+			if len(val) > width {
+				a := val[:width]
+				b := val[width:]
+				s.WriteString(fmt.Sprintf(
+					"%s\n%s\n", a,
+					accentStyle.Render(b)))
+			} else {
+				s.WriteString(val)
+				s.WriteRune('\n')
+			}
+		}
+
+		return s.String()
+	}
+
+	if noStyle {
+                const ansi = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
+		reg := regexp.MustCompile(ansi)
+		res := reg.ReplaceAllString(str.String(), "")
+		return res
+	}
+
+	return appStyle.Render(rd(str.String()))
 }

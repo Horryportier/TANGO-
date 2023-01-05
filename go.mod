@@ -3,7 +3,7 @@ module src/tango
 go 1.18
 
 require (
-	github.com/Horryportier/go-jisho v0.0.0-20230103161237-d3ba95b70299
+	github.com/Horryportier/go-jisho v0.0.0-20230104154856-726f65825941
 	github.com/charmbracelet/bubbles v0.14.0
 	github.com/charmbracelet/bubbletea v0.21.0
 	github.com/charmbracelet/lipgloss v0.5.0

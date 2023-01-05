@@ -2,6 +2,12 @@ github.com/Horryportier/go-jisho v0.0.0-20221221185248-3e0c050d03b5 h1:LJNFOVku6
 github.com/Horryportier/go-jisho v0.0.0-20221221185248-3e0c050d03b5/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
 github.com/Horryportier/go-jisho v0.0.0-20230103161237-d3ba95b70299 h1:upLXvqEogHlNs1mEqxYh6SWT9QCRlRAtlAsCyIHU8wc=
 github.com/Horryportier/go-jisho v0.0.0-20230103161237-d3ba95b70299/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
+github.com/Horryportier/go-jisho v0.0.0-20230104153900-4fcb0f31e9d2 h1:YWO2gp7TVT4/SiS/9r1YgJ/waEj0E8hI5SrwuO8Q4Sk=
+github.com/Horryportier/go-jisho v0.0.0-20230104153900-4fcb0f31e9d2/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
+github.com/Horryportier/go-jisho v0.0.0-20230104154039-986e704cd24e h1:jZnSI2jeSSoa4iCXP2+JWCpJhdN2gUZzW1wpDuvaq0c=
+github.com/Horryportier/go-jisho v0.0.0-20230104154039-986e704cd24e/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
+github.com/Horryportier/go-jisho v0.0.0-20230104154856-726f65825941 h1:+9V6GdmffBCQgOSsA+BUOgXwU1Z4nMEdNul/kaJ3uSU=
+github.com/Horryportier/go-jisho v0.0.0-20230104154856-726f65825941/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=
 github.com/atotto/clipboard v0.1.4/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/charmbracelet/bubbles v0.14.0 h1:DJfCwnARfWjZLvMglhSQzo76UZ2gucuHPy9jLWX45Og=
