@@ -16,7 +16,7 @@ type any word into the input (hiragana, katakana, romaji or engilish) and you wi
 By pressing y/cntl+c copies dietails view to ***clipboard***.
 Witch is formated into markdown so you can eazliy paste it into your notes.
 
-<img src="https://raw.githubusercontent.com/Horryportier/TANGO-/main/TANGO.png"/>
+<img src="https://raw.githubusercontent.com/Horryportier/TANGO-/main/TANGO.gif" width=512 height=512/>
 
 ## Instal 
 make sure you have golang installed.
