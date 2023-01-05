@@ -1,7 +1,7 @@
 package app
 
 import (
-	"src/tango/v1/utils"
+	"github.com/Horryportier/tango/v1/utils"
 
 	jisho "github.com/Horryportier/go-jisho"
 	"github.com/charmbracelet/bubbles/key"
