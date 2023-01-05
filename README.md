@@ -28,7 +28,7 @@ go install -v
 
 #### Uninstall 
 ```bash
-rm ~/go/bin/openup
+rm ~/go/bin/tango
 ```
 
 
