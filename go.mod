@@ -1,4 +1,4 @@
-module src/tango
+module github.com/Horryportier/tango
 
 go 1.18
 

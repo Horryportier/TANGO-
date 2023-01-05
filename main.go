@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	app "src/tango/v1/app"
+	app "github.com/Horryportier/tango/v1/app"
 )
 
 func main() {

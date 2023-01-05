@@ -11,7 +11,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	utils "src/tango/v1/utils"
+	utils "github.com/Horryportier/tango/v1/utils"
 )
 
 var (
