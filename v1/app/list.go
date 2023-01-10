@@ -82,7 +82,7 @@ func ListUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 			}
 			content := DetialsView(i(m), m.ListModel.List.Width(), true)
 
-			copyToClipord(content)
+			utils.copyToClipord(content)
 			return m, nil
 		}
 	case errMsg:

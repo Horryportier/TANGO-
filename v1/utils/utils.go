@@ -2,6 +2,8 @@ package utils
 
 import (
 	"log"
+
+	"github.com/atotto/clipboard"
 )
 
 func Try(args ...any) interface{} {
@@ -29,3 +31,9 @@ func MakeRange(min, max int) []int{
         }
         return a
 }
+
+func copyToClipord(content string) {
+	clipboard.WriteAll(content)
+}
+
+

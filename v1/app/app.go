@@ -167,9 +167,6 @@ func (k keyMap) FullHelp() [][]key.Binding {
 	}
 }
 
-func copyToClipord(content string) {
-	clipboard.WriteAll(content)
-}
 
 func Start() error {
 	p := tea.NewProgram(initialModel(), tea.WithAltScreen())
