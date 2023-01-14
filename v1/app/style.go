@@ -6,10 +6,10 @@ import (
 
 var (
 	// theme
-	primaryColor    = lipgloss.Color("#00c940")
-	secondaryColor  = lipgloss.Color("#909dc0")
-	inactiveColor = lipgloss.Color("#8a8a8a")
-	accentColor     = lipgloss.Color("#ff2a42")
+	primaryColor    = lipgloss.Color("#00c940") //41
+	secondaryColor  = lipgloss.Color("#909dc0") //109
+	inactiveColor = lipgloss.Color("#8a8a8a")   //102
+	accentColor     = lipgloss.Color("#ff2a42") //197
 
 	appStyle = lipgloss.NewStyle().
 			PaddingLeft(4).

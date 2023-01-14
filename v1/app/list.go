@@ -1,10 +1,6 @@
 package app
 
 import (
-	"fmt"
-	"regexp"
-	"strings"
-
 	jisho "github.com/Horryportier/go-jisho"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
@@ -82,7 +78,7 @@ func ListUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 			}
 			content := DetialsView(i(m), m.ListModel.List.Width(), true)
 
-			utils.copyToClipord(content)
+			utils.CopyToClipord(content)
 			return m, nil
 		}
 	case errMsg:
@@ -111,100 +107,4 @@ func ListView(m model) string {
 	desc = DetialsView(i.data, m.ListModel.List.Width(), false)
 	return appStyle.Render(
 		lipgloss.JoinHorizontal(lipgloss.Left, m.ListModel.List.View(), desc))
-}
-
-// seperate styling from genereing leyout.
-func DetialsView(data jisho.Data, listWidth int, noStyle bool) string {
-	var str strings.Builder
-
-	// japanes headear
-	str.WriteString(fmt.Sprintf("%s %v %s %v",
-		accentStyle.Render("#"),
-		PrimaryStyle.Render(data.Slug),
-		accentStyle.Render("source: "),
-		SecondaryStyle.Render(
-			strings.Join(data.Tags, " , "))))
-	str.WriteRune('\n')
-	str.WriteString("___")
-	str.WriteRune('\n')
-
-	// jlpt
-	str.WriteString(
-		SecondaryStyle.Render(
-			fmt.Sprint(strings.Join(data.Jlpt, " | "))))
-	str.WriteRune('\n')
-	str.WriteRune('\n')
-
-	// japanes readings
-	jp := func(data jisho.Data) string {
-		var s strings.Builder
-		s.WriteString(
-			fmt.Sprintf("%s %s", accentStyle.Render("##"),
-				PrimaryStyle.Render("JP/Reading")))
-		s.WriteRune('\n')
-		for i, val := range data.Japanese {
-			s.WriteString(fmt.Sprintf("%v. %s [%s]",
-				i+1,
-				val.Word, val.Reading))
-			s.WriteRune('\n')
-		}
-		return SecondaryStyle.Render(s.String())
-	}
-	str.WriteString(jp(data))
-	str.WriteRune('\n')
-	str.WriteString("___")
-	str.WriteRune('\n')
-
-	// eng def
-	eng := func(data jisho.Data) string {
-		var s strings.Builder
-		s.WriteString(
-			fmt.Sprintf("%s %s", accentStyle.Render("##"),
-				PrimaryStyle.Render("ENG definition")))
-		s.WriteRune('\n')
-		for i, val := range data.Senses {
-			s.WriteString(fmt.Sprintf("%v. %s %s",
-				i+1,
-				strings.Join(val.EnglishDefinitions, ","),
-				accentStyle.Render(
-					strings.Join(val.PartsOfSpeech, ","))))
-			s.WriteRune('\n')
-		}
-		return SecondaryStyle.Render(s.String())
-	}
-	str.WriteString(eng(data))
-	str.WriteRune('\n')
-	str.WriteString("___")
-
-	rd := func(str string) string {
-		var s strings.Builder
-		var offset int = appStyle.GetPaddingLeft()
-		width := (termWidth - listWidth - offset) * 2
-
-		strs := strings.Split(str, "\n")
-
-		for _, val := range strs {
-			if len(val) > width {
-				a := val[:width]
-				b := val[width:]
-				s.WriteString(fmt.Sprintf(
-					"%s\n%s\n", a,
-					accentStyle.Render(b)))
-			} else {
-				s.WriteString(val)
-				s.WriteRune('\n')
-			}
-		}
-
-		return s.String()
-	}
-
-	if noStyle {
-		const ansi = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
-		reg := regexp.MustCompile(ansi)
-		res := reg.ReplaceAllString(str.String(), "")
-		return res
-	}
-
-	return appStyle.Render(rd(str.String()))
 }
