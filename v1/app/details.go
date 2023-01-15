@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	jisho "github.com/Horryportier/go-jisho"
-        "github.com/charmbracelet/glamour"
+	"github.com/charmbracelet/glamour"
 )
 
 func DetialsView(data jisho.Data, listWidth int, noStyle bool) string {
@@ -71,9 +71,20 @@ func DetialsView(data jisho.Data, listWidth int, noStyle bool) string {
 	if noStyle {
 		return appStyle.Render(str.String())
 	}
+
+	//style := "/home/horryportier/Documents/TANGO-/red_green.json"
+
+	width := termWidth - listWidth - 20
+        if width < 20 {
+                width = 20
+        }
+
+	r, _ := glamour.NewTermRenderer(
+		glamour.WithWordWrap(width),
+                glamour.WithEnvironmentConfig(),
+	)
+
+	out, _ := r.Render(str.String())
         
-        out, _ := glamour.Render(str.String(), "/home/horryportier/Documents/TANGO-/red_green.json")
-
-
 	return appStyle.Render(out)
 }

@@ -53,6 +53,11 @@ func ListUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 		h, v := appStyle.GetFrameSize()
 		m.ListModel.List.SetSize(msg.Width-h, msg.Height-v)
 
+		newListModel, cmd := m.ListModel.List.Update(msg)
+		m.ListModel.List = newListModel
+                return m, cmd
+                
+
 	case tea.KeyMsg:
 		switch {
 		case key.Matches(msg, keys.Quit):

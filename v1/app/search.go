@@ -33,18 +33,22 @@ func SearchInit() SearchModel {
 func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 	var cmd tea.Cmd
 	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.SearchModel.Input, cmd = m.SearchModel.Input.Update(msg)
+		return m, cmd
+
 	case tea.KeyMsg:
 		switch {
-                case key.Matches(msg, keys.Quit):
+		case key.Matches(msg, keys.Quit):
 			return m, tea.Quit
-                case key.Matches(msg, keys.Enter):
+		case key.Matches(msg, keys.Enter):
 			val := m.SearchModel.Input.Value()
 			var err error
 
 			items := SearchForPhrase(val)
 			cmd = m.ListModel.List.SetItems(items)
 
-			m.ListModel.List.SetHeight(len(items)*2)
+			m.ListModel.List.SetHeight(len(items) * 2)
 			if err != nil {
 				return m, tea.Quit
 			}
