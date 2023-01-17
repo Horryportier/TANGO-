@@ -1,6 +1,7 @@
 package app
 
 import (
+	"os"
 	"strings"
 
 	"github.com/charmbracelet/bubbles/help"
@@ -23,6 +24,7 @@ const (
 )
 
 var (
+        stylePath string
 	termWidth int
 )
 
@@ -45,7 +47,17 @@ func initialModel() model {
 }
 
 func (m model) Init() tea.Cmd {
-	return tea.EnterAltScreen
+	stylePath = os.Getenv("TANGO_STYLE")
+	if stylePath != "" {
+		SetStyle(true)
+	} else {
+		SetStyle(false)
+	}
+
+        var cmds []tea.Cmd
+        cmds = append(cmds, tea.EnterAltScreen)
+        cmds = append(cmds, m.SearchModel.Spinner.Tick)
+	return tea.Batch(cmds...)
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {

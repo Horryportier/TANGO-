@@ -75,16 +75,26 @@ func DetialsView(data jisho.Data, listWidth int, noStyle bool) string {
 	//style := "/home/horryportier/Documents/TANGO-/red_green.json"
 
 	width := termWidth - listWidth - 20
-        if width < 20 {
-                width = 20
-        }
+	if width < 20 {
+		width = 20
+	}
 
+	if stylePath != "" {
+		r, _ := glamour.NewTermRenderer(
+			glamour.WithWordWrap(width),
+			glamour.WithStylePath(stylePath),
+		)
+
+		out, _ := r.Render(str.String())
+
+		return appStyle.Render(out)
+	}
 	r, _ := glamour.NewTermRenderer(
 		glamour.WithWordWrap(width),
-                glamour.WithEnvironmentConfig(),
+		glamour.WithStandardStyle("dark"),
 	)
 
 	out, _ := r.Render(str.String())
-        
+
 	return appStyle.Render(out)
 }
