@@ -31,6 +31,9 @@ go install -v
 rm ~/go/bin/openup
 ```
 
+#### Theme
+for now there are only 2 themes my custom made that you need to specify env var `TANGO_STYLE` with path to `tango_style.json`,
+and defult one.
 
 ## Build with
 
