@@ -70,4 +70,5 @@ func SetStyle(isCustom bool) {
 	SecondaryStyle = lipgloss.NewStyle().Foreground(secondaryColor)
 	accentStyle = lipgloss.NewStyle().Foreground(accentColor)
 	inactiveStyle = lipgloss.NewStyle().Foreground(inactiveColor)
+
 }
