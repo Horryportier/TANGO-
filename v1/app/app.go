@@ -1,12 +1,12 @@
 package app
 
 import (
-	"os"
 	"strings"
 
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
 )
 
@@ -24,8 +24,8 @@ const (
 )
 
 var (
-        stylePath string
 	termWidth int
+        R *glamour.TermRenderer
 )
 
 type model struct {
@@ -38,6 +38,12 @@ type model struct {
 }
 
 func initialModel() model {
+	R, _ = glamour.NewTermRenderer(
+		glamour.WithWordWrap(40),
+		glamour.WithAutoStyle(),
+	)
+        SetStyle()
+
 	return model{state: Search,
 		SearchModel: SearchInit(),
 		ListModel:   ListInit(),
@@ -47,16 +53,9 @@ func initialModel() model {
 }
 
 func (m model) Init() tea.Cmd {
-	stylePath = os.Getenv("TANGO_STYLE")
-	if stylePath != "" {
-		SetStyle(true)
-	} else {
-		SetStyle(false)
-	}
-
-        var cmds []tea.Cmd
-        cmds = append(cmds, tea.EnterAltScreen)
-        cmds = append(cmds, m.SearchModel.Spinner.Tick)
+	var cmds []tea.Cmd
+	cmds = append(cmds, tea.EnterAltScreen)
+	cmds = append(cmds, m.SearchModel.Spinner.Tick)
 	return tea.Batch(cmds...)
 }
 
