@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/charmbracelet/bubbles/help"
@@ -25,7 +26,7 @@ const (
 
 var (
 	termWidth int
-        R *glamour.TermRenderer
+	R         *glamour.TermRenderer
 )
 
 type model struct {
@@ -42,7 +43,7 @@ func initialModel() model {
 		glamour.WithWordWrap(40),
 		glamour.WithAutoStyle(),
 	)
-        SetStyle()
+	SetStyle()
 
 	return model{state: Search,
 		SearchModel: SearchInit(),
@@ -55,7 +56,6 @@ func initialModel() model {
 func (m model) Init() tea.Cmd {
 	var cmds []tea.Cmd
 	cmds = append(cmds, tea.EnterAltScreen)
-	cmds = append(cmds, m.SearchModel.Spinner.Tick)
 	return tea.Batch(cmds...)
 }
 
@@ -98,7 +98,7 @@ func (m model) View() string {
 		res := lipgloss.JoinHorizontal(
 			lipgloss.Left,
 			SearchView(m),
-			" | ",
+			"  ",
 			SearchingView(m),
 		)
 
@@ -106,16 +106,42 @@ func (m model) View() string {
 			headerStyle.Render(res),
 			ListView(m))
 
+                // don't judge
 		help := func(m model) string {
 			var str strings.Builder
+			if m.help.ShowAll {
+				styles := m.help.Styles
+				k := keys.FullHelp()
+				help := func(k [][]key.Binding) string {
+					var r strings.Builder
+					for _, val := range k {
+						for _, w := range val {
+							r.WriteString(
+								styles.Ellipsis.Render(
+									fmt.Sprintf("%s %s • ",
+										w.Help().Key,
+										w.Help().Desc,
+									),
+								),
+							)
+						}
+						r.WriteRune('\n')
+					}
+					return r.String()
+				}
+
+				return help(k)
+			}
 			str.WriteString(m.help.View(m.keys))
 			return str.String()
+
 		}
 
 		res = lipgloss.JoinVertical(lipgloss.Left, res, help(m))
 
 		return res
 	}()
+
 	return view
 }
 
