@@ -6,7 +6,6 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-
 	utils "github.com/Horryportier/tango/v1/utils"
 )
 

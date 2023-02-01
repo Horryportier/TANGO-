@@ -31,10 +31,6 @@ go install -v
 rm ~/go/bin/tango
 ```
 
-#### Theme
-for now there are only 2 themes my custom made that you need to specify env var `TANGO_STYLE` with path to `tango_style.json`,
-and defult one.
-
 ## Build with
 
 - ![Bubbletea](https://github.com/charmbracelet/bubbletea)

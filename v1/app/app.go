@@ -1,12 +1,13 @@
 package app
 
 import (
-	"os"
+	"fmt"
 	"strings"
 
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
 )
 
@@ -24,8 +25,8 @@ const (
 )
 
 var (
-        stylePath string
 	termWidth int
+	R         *glamour.TermRenderer
 )
 
 type model struct {
@@ -38,6 +39,12 @@ type model struct {
 }
 
 func initialModel() model {
+	R, _ = glamour.NewTermRenderer(
+		glamour.WithWordWrap(40),
+		glamour.WithAutoStyle(),
+	)
+	SetStyle()
+
 	return model{state: Search,
 		SearchModel: SearchInit(),
 		ListModel:   ListInit(),
@@ -47,16 +54,8 @@ func initialModel() model {
 }
 
 func (m model) Init() tea.Cmd {
-	stylePath = os.Getenv("TANGO_STYLE")
-	if stylePath != "" {
-		SetStyle(true)
-	} else {
-		SetStyle(false)
-	}
-
-        var cmds []tea.Cmd
-        cmds = append(cmds, tea.EnterAltScreen)
-        cmds = append(cmds, m.SearchModel.Spinner.Tick)
+	var cmds []tea.Cmd
+	cmds = append(cmds, tea.EnterAltScreen)
 	return tea.Batch(cmds...)
 }
 
@@ -99,7 +98,7 @@ func (m model) View() string {
 		res := lipgloss.JoinHorizontal(
 			lipgloss.Left,
 			SearchView(m),
-			" | ",
+			"  ",
 			SearchingView(m),
 		)
 
@@ -107,16 +106,42 @@ func (m model) View() string {
 			headerStyle.Render(res),
 			ListView(m))
 
+                // don't judge
 		help := func(m model) string {
 			var str strings.Builder
+			if m.help.ShowAll {
+				styles := m.help.Styles
+				k := keys.FullHelp()
+				help := func(k [][]key.Binding) string {
+					var r strings.Builder
+					for _, val := range k {
+						for _, w := range val {
+							r.WriteString(
+								styles.Ellipsis.Render(
+									fmt.Sprintf("%s %s • ",
+										w.Help().Key,
+										w.Help().Desc,
+									),
+								),
+							)
+						}
+						r.WriteRune('\n')
+					}
+					return r.String()
+				}
+
+				return help(k)
+			}
 			str.WriteString(m.help.View(m.keys))
 			return str.String()
+
 		}
 
 		res = lipgloss.JoinVertical(lipgloss.Left, res, help(m))
 
 		return res
 	}()
+
 	return view
 }
 

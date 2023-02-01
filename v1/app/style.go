@@ -1,7 +1,9 @@
 package app
 
 import (
+	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/muesli/termenv"
 )
 
 var (
@@ -31,17 +33,17 @@ var (
 	inactiveStyle  lipgloss.Style
 )
 
-func SetStyle(isCustom bool) {
-	if isCustom {
-		primaryColor = lipgloss.Color("#00c940")   //41
-		secondaryColor = lipgloss.Color("#909dc0") //109
-		inactiveColor = lipgloss.Color("#8a8a8a")  //102
-		accentColor = lipgloss.Color("#ff2a42")    //197
+func SetStyle() {
+	if termenv.HasDarkBackground() {
+		primaryColor = lipgloss.Color(*glamour.DarkStyleConfig.Document.Color)
+		secondaryColor = lipgloss.Color(*glamour.DarkStyleConfig.Heading.Color)
+		inactiveColor = lipgloss.Color(*glamour.DarkStyleConfig.H1.Color)
+		accentColor = lipgloss.Color(*glamour.DarkStyleConfig.H1.BackgroundColor)
 	} else {
-		primaryColor = "#d0d0d0"
-		secondaryColor = "#00afff"
-		inactiveColor = "#ffff87"
-		accentColor = "#5f5fff"
+		primaryColor = lipgloss.Color(*glamour.LightStyleConfig.Document.Color)
+		secondaryColor = lipgloss.Color(*glamour.LightStyleConfig.Heading.Color)
+		inactiveColor = lipgloss.Color(*glamour.LightStyleConfig.H1.Color)
+		accentColor = lipgloss.Color(*glamour.LightStyleConfig.H1.BackgroundColor)
 	}
 
 	appStyle = lipgloss.NewStyle().
