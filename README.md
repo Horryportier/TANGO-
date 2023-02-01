@@ -35,5 +35,8 @@ rm ~/go/bin/tango
 
 - ![Bubbletea](https://github.com/charmbracelet/bubbletea)
 - ![go-jisho](https://github.com/Horryportier/go-jisho) **(jisho api wrapper)**
+- ![glamour](https://github.com/charmbracelet/glamour) 
+- ![lipgloss](https://github.com/charmbracelet/lipgloss) 
 - ![clipboard](https://github.com/atotto/clipboard)
+
 
