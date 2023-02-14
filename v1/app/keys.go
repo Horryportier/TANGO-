@@ -1,10 +1,12 @@
 package app
 
 import (
-        "github.com/charmbracelet/bubbles/key"
-        tea "github.com/charmbracelet/bubbletea"
-)
+	"fmt"
+	"strings"
 
+	"github.com/charmbracelet/bubbles/key"
+	tea "github.com/charmbracelet/bubbletea"
+)
 
 type keyMap struct {
 	Help  key.Binding
@@ -56,6 +58,7 @@ func (k keyMap) ShortHelp() []key.Binding {
 }
 
 func (k keyMap) FullHelp() [][]key.Binding {
+
 	return [][]key.Binding{
 		{k.Up, k.Down},
 		{k.Help, k.Quit},
@@ -64,3 +67,31 @@ func (k keyMap) FullHelp() [][]key.Binding {
 	}
 }
 
+func RenderFullHelp(m model) string {
+	var str strings.Builder
+	if m.help.ShowAll {
+		styles := m.help.Styles
+		k := keys.FullHelp()
+		help := func(k [][]key.Binding) string {
+			var r strings.Builder
+			for _, val := range k {
+				for _, w := range val {
+					r.WriteString(
+						styles.Ellipsis.Render(
+							fmt.Sprintf("%s %s • ",
+								w.Help().Key,
+								w.Help().Desc,
+							),
+						),
+					)
+				}
+				r.WriteRune('\n')
+			}
+			return r.String()
+		}
+
+		return help(k)
+	}
+	str.WriteString(m.help.View(m.keys))
+	return str.String()
+}

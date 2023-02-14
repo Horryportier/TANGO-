@@ -1,9 +1,6 @@
 package app
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
@@ -18,15 +15,14 @@ type (
 
 const (
 	Search State = iota
-	Searching
 	List
 	Err
 	Item
 )
 
 var (
-	termWidth int
-	R         *glamour.TermRenderer
+	termWidth      int
+	GlamourRendere *glamour.TermRenderer
 )
 
 type model struct {
@@ -39,7 +35,7 @@ type model struct {
 }
 
 func initialModel() model {
-	R, _ = glamour.NewTermRenderer(
+	GlamourRendere, _ = glamour.NewTermRenderer(
 		glamour.WithWordWrap(40),
 		glamour.WithAutoStyle(),
 	)
@@ -78,9 +74,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case Search:
 		m, cmd = SearchUpdate(m, msg)
 		cmds = append(cmds, cmd)
-	case Searching:
-		m, cmd = SearchingUpdate(m, msg)
-		cmds = append(cmds, cmd)
 	case List:
 		m, cmd = ListUpdate(m, msg)
 		cmds = append(cmds, cmd)
@@ -98,46 +91,15 @@ func (m model) View() string {
 		res := lipgloss.JoinHorizontal(
 			lipgloss.Left,
 			SearchView(m),
-			"  ",
-			SearchingView(m),
 		)
 
 		res = lipgloss.JoinVertical(lipgloss.Left,
 			headerStyle.Render(res),
 			ListView(m))
 
-                // don't judge
-		help := func(m model) string {
-			var str strings.Builder
-			if m.help.ShowAll {
-				styles := m.help.Styles
-				k := keys.FullHelp()
-				help := func(k [][]key.Binding) string {
-					var r strings.Builder
-					for _, val := range k {
-						for _, w := range val {
-							r.WriteString(
-								styles.Ellipsis.Render(
-									fmt.Sprintf("%s %s • ",
-										w.Help().Key,
-										w.Help().Desc,
-									),
-								),
-							)
-						}
-						r.WriteRune('\n')
-					}
-					return r.String()
-				}
+		help := RenderFullHelp(m)
 
-				return help(k)
-			}
-			str.WriteString(m.help.View(m.keys))
-			return str.String()
-
-		}
-
-		res = lipgloss.JoinVertical(lipgloss.Left, res, help(m))
+		res = lipgloss.JoinVertical(lipgloss.Left, res, help)
 
 		return res
 	}()
