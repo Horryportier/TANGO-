@@ -57,10 +57,7 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 				m.ListModel.List.SetHeight(len(items) * 2)
 				m.state = List
                                 return m, cmd
-			} else {
-				m.state = Searching
-				return m, cmd
-			}
+			} 
 		}
 	case errMsg:
 		m.Error = msg
@@ -69,12 +66,6 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 	}
 	m.SearchModel.Input, cmd = m.SearchModel.Input.Update(msg)
 	cmds = append(cmds, cmd)
-	if m.state == Searching {
-		m.SearchModel.Spinner, cmd = m.SearchModel.Spinner.Update(
-			m.SearchModel.Spinner.Tick,
-		)
-		cmds = append(cmds, cmd)
-	}
 
 	if m.SearchModel.Input.Focused() {
 		m.SearchModel.Input.SetCursorMode(textinput.CursorBlink)
@@ -83,20 +74,9 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 	return m, tea.Batch(cmds...)
 }
 
-func SearchingUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
-	var cmd tea.Cmd
-	return m, cmd
-}
 
 func SearchView(m model) string {
 	return m.SearchModel.Input.View()
-}
-
-func SearchingView(m model) string {
-	if m.state == Searching {
-		return m.SearchModel.Spinner.View()
-	}
-	return ""
 }
 
 func SearchForPhrase(word string, ls chan []list.Item) {

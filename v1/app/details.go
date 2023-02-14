@@ -77,7 +77,7 @@ func DetialsView(data jisho.Data, listWidth int, noStyle bool) string {
 		width = 20
 	}
 
-	out, _ := R.Render(str.String())
+	out, _ := GlamourRendere.Render(str.String())
 
 	return appStyle.Render(out)
 }
