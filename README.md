@@ -40,7 +40,7 @@ go install -v
 rm ~/go/bin/tango
 ```
 
-#### next 
+## next 
 - more flags 
 - capabilty of creating anki flashcards
 
