@@ -12,9 +12,10 @@ Its something that i can not fix bc its an jisho api problem.
 
 
 ## How to use 
-type any word into the input (hiragana, katakana, romaji or engilish) and you will be presented with list of translations.
-By pressing y/cntl+c copies dietails view to ***clipboard***.
-Witch is formated into markdown so you can eazliy paste it into your notes.
+```sh
+tango -h 
+``` 
+
 
 <img src="https://raw.githubusercontent.com/Horryportier/TANGO-/main/TANGO.gif" width=512 height=512/>
 
