@@ -40,6 +40,11 @@ go install -v
 rm ~/go/bin/tango
 ```
 
+#### next 
+- more flags 
+- capabilty of creating anki flashcards
+
+
 ## Build with
 
 - ![Bubbletea](https://github.com/charmbracelet/bubbletea)
