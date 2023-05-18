@@ -13,7 +13,15 @@ Its something that i can not fix bc its an jisho api problem.
 
 ## How to use 
 ```sh
-tango -h 
+Tango is an simple English->Japanese cli dictionary.
+   this app uses jisho.org open api
+   Kanji support doesn't work use romaji or hiragana/katakana
+---COMMANDS--
+
+NONE                   opens tui
+-h                     print help
+たんご/タンゴ/tango    will search for the word
+-c                     will copy result to clipboard
 ``` 
 
 
