@@ -56,8 +56,8 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 				cmd = m.ListModel.List.SetItems(items)
 				m.ListModel.List.SetHeight(len(items) * 2)
 				m.state = List
-                                return m, cmd
-			} 
+				return m, cmd
+			}
 		}
 	case errMsg:
 		m.Error = msg
@@ -74,16 +74,22 @@ func SearchUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
 	return m, tea.Batch(cmds...)
 }
 
-
 func SearchView(m model) string {
 	return m.SearchModel.Input.View()
 }
 
-func SearchForPhrase(word string, ls chan []list.Item) {
-	Word, _ := jisho.Search(word)
+func SearchForPhrase(word string, ls chan []list.Item) error {
+	res, _ := jisho.Search(word)
+	Word, err := Word.Parse(res)
+	if err != nil {
+		return err
+	}
 
 	numOfEntries := Word.Len()
-	entries := Word.GetEntries(utils.MakeRange(0, numOfEntries-1)...)
+	entries, err := Word.GetEntries(utils.MakeRange(0, numOfEntries-1)...)
+	if err != nil {
+		return err
+	}
 
 	items := make([]list.Item, numOfEntries)
 	for i := 0; i < numOfEntries; i++ {
@@ -91,4 +97,5 @@ func SearchForPhrase(word string, ls chan []list.Item) {
 	}
 	ls <- items
 	close(ls)
+    return nil
 }

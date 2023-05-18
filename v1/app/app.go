@@ -1,6 +1,8 @@
 package app
 
 import (
+	"log"
+
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
@@ -41,9 +43,14 @@ func initialModel() model {
 	)
 	SetStyle()
 
+    list_model, err := ListInit()
+    if err != nil {
+            log.Fatal(err)
+    }
+    
 	return model{state: Search,
 		SearchModel: SearchInit(),
-		ListModel:   ListInit(),
+		ListModel:   list_model,
 		help:        help.New(),
 		keys:        keys,
 	}

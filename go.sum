@@ -1,5 +1,5 @@
-github.com/Horryportier/go-jisho v0.0.0-20230104154856-726f65825941 h1:+9V6GdmffBCQgOSsA+BUOgXwU1Z4nMEdNul/kaJ3uSU=
-github.com/Horryportier/go-jisho v0.0.0-20230104154856-726f65825941/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
+github.com/Horryportier/go-jisho v0.0.0-20230518173138-0b482320df91 h1:bbpbocOKPvGEpXouz9QJioDpPir+36sge6RgdycNe8E=
+github.com/Horryportier/go-jisho v0.0.0-20230518173138-0b482320df91/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
 github.com/alecthomas/chroma v0.10.0 h1:7XDcGkCQopCNKjZHfYrNLraA+M7e0fMiJ/Mfikbfjek=
 github.com/alecthomas/chroma v0.10.0/go.mod h1:jtJATyUxlIORhUOFNA9NZDWGAQ8wpxQQqNSB4rjA/1s=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=
@@ -24,8 +24,6 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dlclark/regexp2 v1.4.0 h1:F1rxgk7p4uKjwIQxBs9oAXe5CqrXlCduYEJvrF4u93E=
 github.com/dlclark/regexp2 v1.4.0/go.mod h1:2pZnwuY/m+8K6iRw6wQdMtk+rH5tNGR1i55kozfMjCc=
-github.com/gojp/kana v0.1.0 h1:8bd0WXAObhYpyFA3pF17YImnYyVshw0bcXS+ybNFYQk=
-github.com/gojp/kana v0.1.0/go.mod h1:kWp5hDdJQqnZ2E3SQNQe+iejY63SZ+JdlbnW+qn7vxY=
 github.com/gorilla/css v1.0.0 h1:BQqNyPTi50JCFMTw/b67hByjMVXZRwGha6wxVGkeihY=
 github.com/gorilla/css v1.0.0/go.mod h1:Dn721qIggHpt4+EFCcTLTU/vk5ySda2ReITrtgBl60c=
 github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0SNc=

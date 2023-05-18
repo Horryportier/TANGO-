@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"log"
 	"regexp"
 
@@ -42,4 +43,16 @@ func RemoveTermColor(in string) string {
 	reg := regexp.MustCompile(ansi)
 	res := reg.ReplaceAllString(in, "")
 	return res
+}
+
+func PrintHelp() {
+        fmt.Println("Tango is an simple English->Japanese cli dictionary.")
+        fmt.Println("   this app uses jisho.org open api")
+        fmt.Println("   Kanji support doesn't work use romaji or hiragana/katakana")
+        fmt.Println("---COMMANDS--")
+        fmt.Println("")
+        fmt.Println("NONE                   opens tui")
+        fmt.Println("-h                     print help")
+        fmt.Println("たんご/タンゴ/tango    will search for the word")
+        fmt.Println("-c                     will copy result to clipboard")
 }

@@ -17,9 +17,12 @@ type ListModel struct {
 	List list.Model
 }
 
-func ListInit() ListModel {
+func ListInit() (ListModel, error) {
 	numOfEntries := Word.Len()
-	entries := Word.GetEntries(utils.MakeRange(0, numOfEntries-1)...)
+	entries, err := Word.GetEntries(utils.MakeRange(0, numOfEntries-1)...)
+    if err != nil {
+                return ListModel{}, err
+    }
 
 	items := make([]list.Item, numOfEntries)
 	for i := 0; i < numOfEntries; i++ {
@@ -41,7 +44,7 @@ func ListInit() ListModel {
 
 	wordList.FilterInput.BackgroundStyle = PrimaryStyle.Copy()
 
-	return ListModel{List: wordList}
+	return ListModel{List: wordList}, nil
 }
 
 func ListUpdate(m model, msg tea.Msg) (model, tea.Cmd) {
