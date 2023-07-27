@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	Word jisho.Word
+	Word jisho.WordData
 )
 
 type ListModel struct {

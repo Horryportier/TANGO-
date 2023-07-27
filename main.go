@@ -24,15 +24,8 @@ func main() {
 		case "-h":
 			utils.PrintHelp()
 		default:
-			var word jisho.Word
-			res, err := jisho.Search(arg)
-			if err != nil {
-				log.Fatal(err)
-			}
-			word, err = word.Parse(res)
-			if err != nil {
-				log.Fatal(err)
-			}
+			var word jisho.WordData
+            word.Get(arg)
 
 			fmt.Printf("%s: %s %s", arg, word.Data[0].Slug, word.Data[0].Senses[0].EnglishDefinitions[0])
 		}

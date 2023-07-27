@@ -2,8 +2,6 @@ package app
 
 import (
 	"github.com/Horryportier/tango/v1/utils"
-
-	jisho "github.com/Horryportier/go-jisho"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/spinner"
@@ -79,8 +77,7 @@ func SearchView(m model) string {
 }
 
 func SearchForPhrase(word string, ls chan []list.Item) error {
-	res, _ := jisho.Search(word)
-	Word, err := Word.Parse(res)
+    err := Word.Get(word)
 	if err != nil {
 		return err
 	}

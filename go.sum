@@ -1,5 +1,5 @@
-github.com/Horryportier/go-jisho v0.0.0-20230518173138-0b482320df91 h1:bbpbocOKPvGEpXouz9QJioDpPir+36sge6RgdycNe8E=
-github.com/Horryportier/go-jisho v0.0.0-20230518173138-0b482320df91/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
+github.com/Horryportier/go-jisho v0.0.0-20230727125257-c1e600251aac h1:didtvcWsCGRlGR2z+RzbU8VKGQmFvQ4mMm/H62FKAH4=
+github.com/Horryportier/go-jisho v0.0.0-20230727125257-c1e600251aac/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
 github.com/alecthomas/chroma v0.10.0 h1:7XDcGkCQopCNKjZHfYrNLraA+M7e0fMiJ/Mfikbfjek=
 github.com/alecthomas/chroma v0.10.0/go.mod h1:jtJATyUxlIORhUOFNA9NZDWGAQ8wpxQQqNSB4rjA/1s=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=
