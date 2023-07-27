@@ -53,6 +53,8 @@ func PrintHelp() {
         fmt.Println("")
         fmt.Println("NONE                   opens tui")
         fmt.Println("-h                     print help")
+        fmt.Println("-r                     print raw json response")
+        fmt.Println("-r                     print details view")
         fmt.Println("たんご/タンゴ/tango    will search for the word")
         fmt.Println("-c                     will copy result to clipboard")
 }
