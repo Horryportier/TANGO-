@@ -1,6 +1,9 @@
-package main
+package api
 
 import "os"
+
+
+type Err error
 
 var (
     ENABLE_STYLE = func () bool {

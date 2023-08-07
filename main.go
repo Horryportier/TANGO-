@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	jisho "github.com/Horryportier/go-jisho"
+    tui "github.com/Horryportier/tango/tui"
+    "github.com/Horryportier/tango/api"
 )
 var (
     args = os.Args[1:]
@@ -12,18 +13,21 @@ var (
 
 func main() {
     if len(args) == 0 {
-                PrintErr(fmt.Errorf("%s", "no args where passed"), ENABLE_STYLE)               
-                os.Exit(1)
-            }
+        if err := tui.Run(); err != nil{
+            api.PrintErr(err)
+            os.Exit(1)
+        }
+        os.Exit(0)
+    }
     for _, arg := range args {
         switch arg {
         case "-h":
-            PrintHelp()
+            api.PrintHelp()
 
         default: 
             var word jisho.WordData
             word.Get(arg)
-            PrintWord(word, true)
+            api.PrintWord(word, true)
         }
     }
 }

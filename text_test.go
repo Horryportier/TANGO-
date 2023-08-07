@@ -4,11 +4,12 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+    api "github.com/Horryportier/tango/api"
 )
 
 func TestSpan(t *testing.T) {
         var span Span
-        span = span.From("test", defStyle)
+        span = SpanFrom("test", api.defStyle)
         if span.string !=  "test" {
             t.Errorf("span string should be [test] not: %s", span.string)
         }
