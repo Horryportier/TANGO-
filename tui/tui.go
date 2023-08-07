@@ -7,6 +7,7 @@ import (
 	api "github.com/Horryportier/tango/api"
 	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/charmbracelet/bubbles/textinput"
+	"github.com/google/go-cmp/cmp"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -42,7 +43,7 @@ func initialModel() model {
     input.Focus()
 	return model{
         input: input,
-        data: api.DefWord(),
+        // data: api.DefWord(),
         err: fmt.Errorf(""),
 	}
 }
@@ -68,9 +69,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
         case "down", "j":
 
-        case "enter", " ":
+        case "enter":
             val := m.input.Value()
-            go search(val ,m.datach)
+            m.data = search(val)
         }
     case errMsg:
         m.err = msg
@@ -91,33 +92,33 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 
 func (m model) View() string {
+    word := func () string  {
+        if cmp.Equal(m.data, jisho.WordData{})    {
+            return "no data"
+        } 
+        return api.PrintWord(m.data, false)
+    }()
+        
     text := api.TextFrom([]api.Line{
            api.LineFrom([]api.Span{
                 api.SpanFrom("Welcome to TANGO!", api.DefStyle),
                 api.SpanFrom("Try Searching.", api.ArrowStyle),
            }),
-           api.LineFrom([]api.Span{
-                api.SpanFrom(m.input.View(), api.ArrowStyle),
-           }),
-           api.LineFrom([]api.Span{
-                api.SpanFrom("Result", api.DimStyle),
-           }),
-           api.LineFrom([]api.Span{
-                api.SpanFrom(api.PrintWord(m.data, false), api.DimStyle),
-           }),
-           api.LineFrom([]api.Span{
-                api.SpanFrom(m.err.Error(), api.ErrorStyle),
-           }),
+           api.LineFrom(m.input.View(), api.ArrowStyle),
+           api.LineFrom("Result", api.DimStyle),
+           api.LineFrom(word, api.DimStyle),
+           api.LineFrom(m.err.Error(), api.ErrorStyle),
     })
     return text.Render(api.ENABLE_STYLE)
 }
 
 
 
-func search(s string, ch chan DataCh) {
+func search(s string) jisho.WordData {
     var data DataCh
     if err := data.data.Get(s); err != nil {
         data.err = err 
     }
-    ch <- data
+    // ch <- data
+    return data.data
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	jisho "github.com/Horryportier/go-jisho"
@@ -25,6 +26,9 @@ func main() {
             api.PrintHelp()
         case "-r":
             api.ENABLE_STYLE = false
+        case "-t":
+         var s []string = []string{"Hi", "How", "Are", "You", "!"}
+         fmt.Printf(api.TextFrom(s, api.JapaneseStyle).Render(api.ENABLE_STYLE))
         default: 
             var word jisho.WordData
             word = api.DefWord()
