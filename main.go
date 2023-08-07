@@ -4,8 +4,8 @@ import (
 	"os"
 
 	jisho "github.com/Horryportier/go-jisho"
-    tui "github.com/Horryportier/tango/tui"
-    "github.com/Horryportier/tango/api"
+	"github.com/Horryportier/tango/api"
+	tui "github.com/Horryportier/tango/tui"
 )
 var (
     args = os.Args[1:]
@@ -23,10 +23,14 @@ func main() {
         switch arg {
         case "-h":
             api.PrintHelp()
-
+        case "-r":
+            api.ENABLE_STYLE = false
         default: 
             var word jisho.WordData
-            word.Get(arg)
+            word = api.DefWord()
+            if err := word.Get(arg); err != nil {
+                api.PrintErr(err)
+            }
             api.PrintWord(word, true)
         }
     }
