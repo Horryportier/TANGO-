@@ -20,21 +20,25 @@ func PrintErr(err error) {
 /// pto = print to term
 func PrintWord(word jisho.WordData, pto bool) string {
     var text Text
+    
+    data := ReturnFirstOrDef(word.Data)
+    
+
     text = TextFrom([]Line{
         LineFrom([]Span{
-            SpanFrom(word.Data[0].Slug, JapaneseStyle),
+            SpanFrom(data.Slug, JapaneseStyle),
 
             SpanFrom("(", DimStyle),
-            SpanFrom(word.Data[0].Japanese[0].Reading, JapaneseStyle),
+            SpanFrom(ReturnFirstOrDef(data.Japanese).Reading, JapaneseStyle),
             SpanFrom(")", DimStyle),
 
-            SpanFrom("=>", ArrowStyle),
+            SpanFrom("=>", AcentStyle),
             SpanFrom(word.FirstTransation(), TextStyle),
     }),
     LineFrom([]Span{
-        SpanFrom(word.Data[0].Jlpt[0], DimStyle),
+        SpanFrom(ReturnFirstOrDef(data.Jlpt), DimStyle),
         SpanFrom("|", TextStyle),
-        SpanFrom(word.Data[0].Tags[0], DimStyle),
+        SpanFrom(ReturnFirstOrDef(data.Tags), DimStyle),
     }),
     },)
     

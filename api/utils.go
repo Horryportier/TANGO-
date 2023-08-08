@@ -1,7 +1,7 @@
 package api
 
 import (
-    jisho "github.com/Horryportier/go-jisho"
+	jisho "github.com/Horryportier/go-jisho"
 )
 
 var (
@@ -31,4 +31,10 @@ func DefWord() jisho.WordData {
         }}}
 }
 
-
+func ReturnFirstOrDef[T any](arr []T) T {
+    var t T 
+    if len(arr) == 0 {
+        return t
+    }
+    return arr[0]
+}
