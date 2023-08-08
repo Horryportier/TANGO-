@@ -2,55 +2,41 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	jisho "github.com/Horryportier/go-jisho"
-	app "github.com/Horryportier/tango/v1/app"
-	"github.com/Horryportier/tango/v1/utils"
+	"github.com/Horryportier/tango/api"
+	tui "github.com/Horryportier/tango/tui"
+)
+var (
+    args = os.Args[1:]
 )
 
 func main() {
-	var args = os.Args[1:]
-
-	if len(args) == 0 {
-		if err := app.Start(); err != nil {
-			log.Fatal(err)
-		}
-	}
-
-	for i, arg := range args {
-		switch arg {
-		case "-h":
-			utils.PrintHelp()
+    if len(args) == 0 {
+        if err := tui.Run(); err != nil{
+            api.PrintErr(err)
+            os.Exit(1)
+        }
+        os.Exit(0)
+    }
+    for _, arg := range args {
+        switch arg {
+        case "-h":
+            api.PrintHelp()
         case "-r":
-            d, err := jisho.Search(args[i+1])
-            if err != nil {
-                fmt.Printf("Error: %v", err)
-                os.Exit(1)
-            }
-            fmt.Print(string(d))
-
-        case "-d":
+            api.ENABLE_STYLE = false
+        case "-t":
+         var s []string = []string{"Hi", "How", "Are", "You", "!"}
+         fmt.Printf(api.TextFrom(s, api.JapaneseStyle).Render(api.ENABLE_STYLE))
+        default: 
             var word jisho.WordData
-            err := word.Get(args[i+1])
-            if err != nil {
-                fmt.Printf("Error: %v", err)
-                os.Exit(1)
+            word = api.DefWord()
+            if err := word.Get(arg); err != nil {
+                api.PrintErr(err)
             }
-            f, err := word.First()
-            if err != nil {
-                fmt.Printf("Error: %v", err)
-                os.Exit(1)
-            }
-            fmt.Print(app.DetialsView(f, 100, true))
-
-		default:
-			var word jisho.WordData
-            word.Get(arg)
-
-			fmt.Printf("%s: %s %s", arg, word.Data[0].Slug, word.Data[0].Senses[0].EnglishDefinitions[0])
-		}
-	}
-
+            api.PrintWord(api.ReturnFirstOrDef(word.Data), true)
+        }
+    }
 }
+
