@@ -18,12 +18,18 @@ func PrintErr(err error) {
 }
 
 /// pto = print to term
-func PrintWord(word jisho.WordData, pto bool) string {
+func PrintWord(data jisho.Data, pto bool) string {
     var text Text
     
-    data := ReturnFirstOrDef(word.Data)
+    var metadata []string = func () []string {
+        s := ReturnFirstOrDefSlice(data.Jlpt, []int{0,1,2,3,4})
+        s = append(s, "|")
+        s = append(s, ReturnFirstOrDef(data.Tags, 0,1, 2))
+        s = ClearEmptyStr(s)
+      return   s
+    }()
     
-
+    
     text = TextFrom([]Line{
         LineFrom([]Span{
             SpanFrom(data.Slug, JapaneseStyle),
@@ -33,17 +39,13 @@ func PrintWord(word jisho.WordData, pto bool) string {
             SpanFrom(")", DimStyle),
 
             SpanFrom("=>", AcentStyle),
-            SpanFrom(word.FirstTransation(), TextStyle),
+            SpanFrom(ReturnFirstOrDef(ReturnFirstOrDef(data.Senses).EnglishDefinitions), TextStyle),
     }),
-    LineFrom([]Span{
-        SpanFrom(ReturnFirstOrDef(data.Jlpt), DimStyle),
-        SpanFrom("|", TextStyle),
-        SpanFrom(ReturnFirstOrDef(data.Tags), DimStyle),
-    }),
+    LineFrom(metadata, DimStyle),
     },)
     
     if pto {
         fmt.Printf("%s\n", text.Render(ENABLE_STYLE))
     }
-    return text.Render(true)
+    return text.Render(ENABLE_STYLE)
 }

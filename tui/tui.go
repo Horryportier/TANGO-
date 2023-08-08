@@ -5,6 +5,7 @@ import (
 
 	jisho "github.com/Horryportier/go-jisho"
 	api "github.com/Horryportier/tango/api"
+	"github.com/charmbracelet/bubbles/paginator"
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -53,21 +54,31 @@ type model struct {
     data  jisho.WordData
     err errMsg
 
+    pagin paginator.Model
     index int
     length int
+
  }
 
 func initialModel() model {
     input := textinput.New()
     input.Placeholder = "search/サーチ"
     input.Focus()
+    
     spin := spinner.New()
     spin.Spinner = spinner.Dot
-    spin.Style = api.AcentStyle
+    if api.ENABLE_STYLE {
+        spin.Style = api.AcentStyle
+    }
+
+    pagin := paginator.New()
+    pagin.SetTotalPages(1)
+    pagin.Type = paginator.Dots
 	return model{
         input: input,
         err: fmt.Errorf(""),
         spin:  spin,
+        pagin:  pagin,
 	}
 }
 
@@ -76,12 +87,10 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-    m.index = len(m.data.Data)
     var cmds []tea.Cmd
     var cmd tea.Cmd
 
     switch msg := msg.(type) {
-
     case tea.KeyMsg:
 
         switch msg.String() {
@@ -96,9 +105,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
                 return Input
             }(m.mode)
         case "up", "k":
+            m.pagin.PrevPage()
+            if m.index > 0 { m.index -= 1; return m, nil}
 
         case "down", "j":
-
+            m.pagin.NextPage()
+            if m.index < len(m.data.Data) { m.index += 1; return m, nil }
         case "enter":
             input := m.input.Value()
             if input != "" {
@@ -116,7 +128,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
             m.err = res.error
             return m, nil
         }
+        m.index = 0
         m.data = res.WordData
+        m.pagin.SetTotalPages(len(m.data.Data))
+        m.mode = List
         return m, nil
     default:
     }
@@ -127,16 +142,23 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
     }
     m.spin, cmd = m.spin.Update(msg)
     cmds = append(cmds, cmd)
+    m.pagin, cmd = m.pagin.Update(msg)
+    cmds = append(cmds, cmd)
     return m, tea.Batch(cmds...)
 }
 
 
 func (m model) View() string {
     word := func () string  {
+        var t string
         if cmp.Equal(m.data, jisho.WordData{})    {
-            return "no data"
+            t = "no data"
         } 
-        return api.PrintWord(m.data, false)
+        t = api.PrintWord(api.ReturnFirstOrDef(m.data.Data, m.index), false)
+        if m.mode != List {
+            return api.FaintStyle.Render(t)
+        }
+        return t
     }()
 
     spinView := func () string {
@@ -151,15 +173,21 @@ func (m model) View() string {
         return ""
     }
     }()
-    
+    inputView := func () string  {
+        if m.mode != Input {
+            return  api.FaintStyle.Render(m.input.View())
+        }
+        return m.input.View()
+    }()
         
     text := api.TextFrom([]api.Line{
            api.LineFrom([]api.Span{
                 api.SpanFrom("Welcome to TANGO!", api.DefStyle),
                 api.SpanFrom("Try Searching.", api.AcentStyle),
            }),
-           api.LineFrom([]string{m.input.View(), spinView}, api.AcentStyle),
+           api.LineFrom([]string{inputView, spinView}, api.AcentStyle),
            api.LineFrom("Result:", api.DimStyle),
+           api.LineFrom(m.pagin.View(), api.AcentStyle),
            api.LineFrom(word, api.DimStyle),
            api.LineFrom(m.err.Error(), api.ErrorStyle),
           

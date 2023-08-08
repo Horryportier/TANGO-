@@ -3,29 +3,30 @@
 
 This Tui is an japanese dictionary for ppl that can't bother to use broswer. ;)
 
-## !Warning
-***only romaji, engilish, hiragana and katakana are supported no KANJI.***
-Also some engilish words can be interpreted as romaji and searched in that way. 
-Its something that i can not fix bc its an jisho api problem.
-(exp. china -> ちな witch means "by the way" not country)
-
-
 
 ## How to use 
 ```sh
 Tango is an simple English->Japanese cli dictionary.
    this app uses jisho.org open api
-   Kanji support doesn't work use romaji or hiragana/katakana
 ---COMMANDS--
 
-NONE                   opens tui
--h                     print help
-たんご/タンゴ/tango    will search for the word
--c                     will copy result to clipboard
+NONE                    opens tui
+-h                      print help
+-r                      don't use colors
+たんご/タンゴ/tango/単語  will search for the word
 ``` 
 
+### Env valiables
+```bash
+# use to disable colors. Default is true
+export TANGO_STYLE=true
+# use to open tui in alternative screen. Default is false
+export TANGO_ALT_SCREEN=true
+# use to change theme. !! theme has to have exacly 6 hex colors seperated by ;
+export TANGO_THEME="#FFFFFF;#cdd6f4;#f38ba8;#cba6f7;#a6e3a1;#313244"
+```
 
-<img src="https://raw.githubusercontent.com/Horryportier/TANGO-/main/TANGO.gif" width=512 height=512/>
+
 
 ## Instal 
 make sure you have golang installed.

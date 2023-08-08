@@ -35,7 +35,7 @@ func main() {
             if err := word.Get(arg); err != nil {
                 api.PrintErr(err)
             }
-            api.PrintWord(word, true)
+            api.PrintWord(api.ReturnFirstOrDef(word.Data), true)
         }
     }
 }

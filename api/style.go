@@ -9,6 +9,7 @@ var (
     AcentStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(THEME[3]))
     JapaneseStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(THEME[4]))
     DimStyle = lipgloss.NewStyle().Foreground(lipgloss.Color(THEME[5]))
+    FaintStyle = lipgloss.NewStyle().Faint(true)
 )
 
 
