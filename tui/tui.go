@@ -26,6 +26,7 @@ var (
     Future chan Result = make(chan Result)
     Finshed chan bool = make(chan bool)
     Searching bool = false
+    Help bool = false
     options []tea.ProgramOption
 )
 
@@ -98,6 +99,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
         case "ctrl+c", "q":
             return m, tea.Quit
 
+        case "?":
+            Help = !Help
         case "tab":
             m.mode = func (m Mode) Mode {
                 if m == Input {return List}
@@ -192,7 +195,8 @@ func (m model) View() string {
            api.LineFrom(m.err.Error(), api.ErrorStyle),
           
     })
-    return text.Render(api.ENABLE_STYLE)
+    text = append(text, PrintKeys(Help)...)
+    return text.Render(api.ENABLE_STYLE) 
 }
 
 
@@ -213,4 +217,13 @@ func search(input string) {
 }
 
 
-
+func PrintKeys(help bool) api.Text {
+    var text api.Text
+    if help {
+        text = api.TextFrom([]api.Line{api.LineFrom([]string{"j/down", "k/up", "Enter: search"}, api.DimStyle), 
+        api.LineFrom([]string{"Tab: switch input/list", "cntl+c/esc: exit",}, api.DimStyle)})
+    } else {
+        text  = api.TextFrom("pres ? to see keys", api.DimStyle)
+    }
+    return text
+}

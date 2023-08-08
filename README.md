@@ -3,6 +3,7 @@
 
 This Tui is an japanese dictionary for ppl that can't bother to use broswer. ;)
 
+![Made with VHS](https://vhs.charm.sh/vhs-3I9O80EeylWbYh839V2DxG.gif)
 
 ## How to use 
 ```sh
@@ -41,17 +42,13 @@ go install -v
 rm ~/go/bin/tango
 ```
 
-## next 
-- more flags 
-- capabilty of creating anki flashcards
+## Contirbuting
+You are free to contribite.
 
+> List of things that i wan't to do but you might as well help 😄
+- check if its working on Mac/Windows
+- automatic anki card creation
+- automatic obsidian note creation 
+- fix visual bug "when theres no data  should not print anything under Result"
 
-## Build with
-
-- ![Bubbletea](https://github.com/charmbracelet/bubbletea)
-- ![go-jisho](https://github.com/Horryportier/go-jisho) **(jisho api wrapper)**
-- ![glamour](https://github.com/charmbracelet/glamour) 
-- ![lipgloss](https://github.com/charmbracelet/lipgloss) 
-- ![clipboard](https://github.com/atotto/clipboard)
-
-
+you can ask for feature or make it if you want.

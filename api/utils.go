@@ -9,6 +9,8 @@ var (
 )
 
 
+
+
 func DefWord() jisho.WordData {
     return jisho.WordData{
         Data: 
@@ -70,5 +72,6 @@ func ClearEmptyStr(s []string) []string {
     }
     return s
 }
+
 
 

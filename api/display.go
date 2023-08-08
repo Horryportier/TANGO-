@@ -49,3 +49,4 @@ func PrintWord(data jisho.Data, pto bool) string {
     }
     return text.Render(ENABLE_STYLE)
 }
+
