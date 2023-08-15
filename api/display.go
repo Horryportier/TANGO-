@@ -2,11 +2,23 @@ package api
 
 import (
     "fmt"
-	jisho "github.com/Horryportier/go-jisho"
+jisho "github.com/Horryportier/go-jisho"
+   tx "github.com/Horryportier/lipgloss-text"
 )
 func PrintHelp() {
-    text := "help"
-    fmt.Printf("%s\n", text)
+    keys := [][]string{
+        {"j"},{"k"}, {"Enter"}, {"Tab"}, {"cntl+c", "esc"},
+    }
+    desc := []string{"down", "up", "search", "switch inptut/list", "exit"}
+    var lines Line 
+
+    for i, v := range keys {
+        key := tx.LineFrom(v, DimStyle)
+        desc := tx.LineFrom(desc[i], DefStyle)
+
+
+    } 
+    fmt.Printf("%s\n", lines.Render(tx.Styled(ENABLE_STYLE)))
 }
 
 func PrintErr(err error) {
@@ -19,7 +31,7 @@ func PrintErr(err error) {
 
 /// pto = print to term
 func PrintWord(data jisho.Data, pto bool) string {
-    var text Text
+    var tx Text
     
     var metadata []string = func () []string {
         s := ReturnFirstOrDefSlice(data.Jlpt, []int{0,1,2,3,4})
@@ -30,7 +42,7 @@ func PrintWord(data jisho.Data, pto bool) string {
     }()
     
     
-    text = TextFrom([]Line{
+    tx = TextFrom([]Line{
         LineFrom([]Span{
             SpanFrom(data.Slug, JapaneseStyle),
 
@@ -38,15 +50,15 @@ func PrintWord(data jisho.Data, pto bool) string {
             SpanFrom(ReturnFirstOrDef(data.Japanese).Reading, JapaneseStyle),
             SpanFrom(")", DimStyle),
 
-            SpanFrom("=>", AcentStyle),
-            SpanFrom(ReturnFirstOrDef(ReturnFirstOrDef(data.Senses).EnglishDefinitions), TextStyle),
+            SpanFrom("=>", Acentxtyle),
+            SpanFrom(ReturnFirstOrDef(ReturnFirstOrDef(data.Senses).EnglishDefinitions), txStyle),
     }),
     LineFrom(metadata, DimStyle),
     },)
     
     if pto {
-        fmt.Printf("%s\n", text.Render(ENABLE_STYLE))
+        fmt.Printf("%s\n", tx.Render(ENABLE_STYLE))
     }
-    return text.Render(ENABLE_STYLE)
+    return tx.Render(ENABLE_STYLE)
 }
 
