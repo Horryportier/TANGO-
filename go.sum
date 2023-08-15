@@ -1,7 +1,7 @@
 github.com/Horryportier/go-jisho v0.0.0-20230727125257-c1e600251aac h1:didtvcWsCGRlGR2z+RzbU8VKGQmFvQ4mMm/H62FKAH4=
 github.com/Horryportier/go-jisho v0.0.0-20230727125257-c1e600251aac/go.mod h1:iPfoKyqFkIyPrMTT2SA0bqjn/q4kMSuk9s3/is7XtbA=
-github.com/Horryportier/lipgloss-text v0.0.0-20230815091609-e144ab4bc0a0 h1:KxVmFXM9xzAIscfDbL8HiLvpv0UMPJKi3by2Y0kYY9Y=
-github.com/Horryportier/lipgloss-text v0.0.0-20230815091609-e144ab4bc0a0/go.mod h1:4Bg68Bvs/xHU4u9NIfC33YJIyOIUEBS8f3LBrGiYLD4=
+github.com/Horryportier/lipgloss-text v0.1.1 h1:Po4xG82gtDjiXEGmn4fGed9EoZ6l2nn5XghKpuRSDps=
+github.com/Horryportier/lipgloss-text v0.1.1/go.mod h1:SQjeU4dx4J5oa+lEZTHoU0toEHSesJqj+d9/eCTiIqk=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=
 github.com/atotto/clipboard v0.1.4/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1 h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=
