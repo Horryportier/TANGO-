@@ -10,6 +10,8 @@ import (
 	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/charmbracelet/bubbles/textinput"
 	"github.com/google/go-cmp/cmp"
+    . "github.com/Horryportier/lipgloss-text"
+
 
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -183,20 +185,20 @@ func (m model) View() string {
         return m.input.View()
     }()
         
-    text := api.TextFrom([]api.Line{
-           api.LineFrom([]api.Span{
-                api.SpanFrom("Welcome to TANGO!", api.DefStyle),
-                api.SpanFrom("Try Searching.", api.AcentStyle),
+    text := TextFrom([]Line{
+           LineFrom([]Span{
+                SpanFrom("Welcome to TANGO!", api.DefStyle),
+                SpanFrom("Try Searching.", api.AcentStyle),
            }),
-           api.LineFrom([]string{inputView, spinView}, api.AcentStyle),
-           api.LineFrom("Result:", api.DimStyle),
-           api.LineFrom(m.pagin.View(), api.AcentStyle),
-           api.LineFrom(word, api.DimStyle),
-           api.LineFrom(m.err.Error(), api.ErrorStyle),
+           LineFrom([]string{inputView, spinView}, api.AcentStyle),
+           LineFrom("Result:", api.DimStyle),
+           LineFrom(m.pagin.View(), api.AcentStyle),
+           LineFrom(word, api.DimStyle),
+           LineFrom(m.err.Error(), api.ErrorStyle),
           
     })
     text = append(text, PrintKeys(Help)...)
-    return text.Render(api.ENABLE_STYLE) 
+    return text.Render(Styled(api.ENABLE_STYLE)) 
 }
 
 
@@ -217,13 +219,13 @@ func search(input string) {
 }
 
 
-func PrintKeys(help bool) api.Text {
-    var text api.Text
+func PrintKeys(help bool) Text {
+    var text Text
     if help {
-        text = api.TextFrom([]api.Line{api.LineFrom([]string{"j/down", "k/up", "Enter: search"}, api.DimStyle), 
-        api.LineFrom([]string{"Tab: switch input/list", "cntl+c/esc: exit",}, api.DimStyle)})
+        text = TextFrom([]Line{LineFrom([]string{"j/down", "k/up", "Enter: search"}, api.DimStyle), 
+        LineFrom([]string{"Tab: switch input/list", "cntl+c/esc: exit",}, api.DimStyle)})
     } else {
-        text  = api.TextFrom("pres ? to see keys", api.DimStyle)
+        text  = TextFrom("pres ? to see keys", api.DimStyle)
     }
     return text
 }
