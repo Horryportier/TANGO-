@@ -46,12 +46,14 @@ func Run() error {
     return nil
 }
 
+
 type model struct {
     mode Mode
 
     input textinput.Model
     dataView textarea.Model
     spin spinner.Model
+
     help textarea.Model
 
     data  jisho.WordData
@@ -60,7 +62,7 @@ type model struct {
     pagin paginator.Model
     index int
     length int
-
+    
  }
 
 func initialModel() model {
@@ -217,6 +219,8 @@ func search(input string) {
     Finshed <- true
     return
 }
+
+
 
 
 func PrintKeys(help bool) Text {

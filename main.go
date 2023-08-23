@@ -21,10 +21,10 @@ func main() {
     }
     for _, arg := range args {
         switch arg {
-        case "-h":
-            api.PrintHelp()
         case "-r":
             api.ENABLE_STYLE = false
+        case "-h":
+            api.PrintHelp(api.ENABLE_STYLE)
         default: 
             var word jisho.WordData
             word = api.DefWord()
