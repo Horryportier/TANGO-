@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	jisho "github.com/Horryportier/go-jisho"
@@ -31,7 +32,7 @@ func main() {
             if err := word.Get(arg); err != nil {
                 api.PrintErr(err)
             }
-            api.PrintWord(api.ReturnFirstOrDef(word.Data), true)
+            fmt.Println(api.PrintWord(api.ReturnFirstOrDef(word.Data)))
         }
     }
 }

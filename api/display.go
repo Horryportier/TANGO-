@@ -6,6 +6,7 @@ import (
 	jisho "github.com/Horryportier/go-jisho"
 	. "github.com/Horryportier/lipgloss-text"
 )
+
 func PrintHelp(styled bool) {
     topText := TextFrom([]Line{
         LineFrom("---TANGO---", AcentStyle),
@@ -40,18 +41,8 @@ func PrintErr(err error) {
     fmt.Println(fmt.Sprint(err))
 }
 
-/// pto = print to term
-func PrintWord(data jisho.Data, pto bool) string {
+func PrintWord(data jisho.Data) string {
     var text Text
-    
-    var metadata []string = func () []string {
-        s := ReturnFirstOrDefSlice(data.Jlpt, []int{0,1,2,3,4})
-        s = append(s, "|")
-        s = append(s, ReturnFirstOrDef(data.Tags, 0,1, 2))
-        s = ClearEmptyStr(s)
-      return   s
-    }()
-    
     
     text = TextFrom([]Line{
         LineFrom([]Span{
@@ -63,13 +54,59 @@ func PrintWord(data jisho.Data, pto bool) string {
 
             SpanFrom("=>", AcentStyle),
             SpanFrom(ReturnFirstOrDef(ReturnFirstOrDef(data.Senses).EnglishDefinitions), DefStyle),
-    }),
-    LineFrom(metadata, DimStyle),
-    },)
-    
-    if pto {
-        fmt.Printf("%s\n", text.Render(Styled(ENABLE_STYLE)))
-    }
+    })})
+
+    var metadata []string  = GetMetadata(data)   
+    if len(metadata) > 1 {
+        text.Append(TextFrom(LineFrom(metadata, AcentStyle)))
+    } 
+
     return text.Render(Styled(ENABLE_STYLE))
 }
 
+
+func PrintWordFull(data jisho.Data) string {
+    var text Text
+    text = TextFrom([]Line{
+        LineFrom(data.Slug, JapaneseStyle),
+    })
+
+
+    var jp Line
+    var eDef string
+    for i,v := range data.Japanese {
+        sen := ReturnFirstOrDefSlice(data.Senses, i)
+        ed := ReturnFirstOrDef(sen).EnglishDefinitions
+
+        tjp := LineFrom(LineFrom([]Span{
+            SpanFrom(v.Word, JapaneseStyle), 
+            SpanFrom(":", DimStyle), 
+            SpanFrom(v.Reading, JapaneseStyle),
+        }).Render(Delimiter("")))
+
+        jp.Append(tjp)
+
+        eDef = LineFrom(ReturnFirstOrDefSlice(ed, SliceOfLength(ed)), DefStyle).Render(Delimiter("\n"))
+    }
+
+
+    text.Append(TextFrom(jp.Render(Delimiter("\n"))))
+    text.Append(TextFrom(eDef))
+
+    var metadata []string  = GetMetadata(data)   
+    if len(metadata) > 1 {
+        text.Append(TextFrom(LineFrom(metadata, AcentStyle)))
+    }
+
+    return text.Render(Styled(ENABLE_STYLE))
+}
+
+func GetMetadata(data jisho.Data) []string {
+        s := ReturnFirstOrDefSlice(data.Jlpt, SliceOfLength(data.Jlpt))
+        s = append(s, "|")
+        for _,v := range ReturnFirstOrDefSlice(data.Tags, SliceOfLength(data.Tags)) {
+            s = append(s, v)
+        }
+        s = ClearEmptyStr(s)
+      return   s
+}

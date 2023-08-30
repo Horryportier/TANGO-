@@ -75,3 +75,11 @@ func ClearEmptyStr(s []string) []string {
 
 
 
+func SliceOfLength[T any](slice []T) []int {
+    var s []int
+    for i := 0; i < len(slice); i++ {
+        s = append(s, i)
+    }
+    return s
+}
+

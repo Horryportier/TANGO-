@@ -30,6 +30,8 @@ var (
     Searching bool = false
     Help bool = false
     options []tea.ProgramOption
+
+    FullView = false
 )
 
 type errMsg error
@@ -105,6 +107,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
         case "?":
             Help = !Help
+
+        case "F": 
+            FullView = !FullView
+
         case "tab":
             m.mode = func (m Mode) Mode {
                 if m == Input {return List}
@@ -161,7 +167,13 @@ func (m model) View() string {
         if cmp.Equal(m.data, jisho.WordData{})    {
             t = "no data"
         } 
-        t = api.PrintWord(api.ReturnFirstOrDef(m.data.Data, m.index), false)
+
+        if FullView {
+            t = api.PrintWordFull(api.ReturnFirstOrDef(m.data.Data, m.index))
+        } else {
+            t = api.PrintWord(api.ReturnFirstOrDef(m.data.Data, m.index))
+        }
+
         if m.mode != List {
             return api.FaintStyle.Render(t)
         }
@@ -227,7 +239,9 @@ func PrintKeys(help bool) Text {
     var text Text
     if help {
         text = TextFrom([]Line{LineFrom([]string{"j/down", "k/up", "Enter: search"}, api.DimStyle), 
-        LineFrom([]string{"Tab: switch input/list", "cntl+c/esc: exit",}, api.DimStyle)})
+        LineFrom([]string{"Tab: switch input/list", "cntl+c/esc: exit",}, api.DimStyle),
+        LineFrom([]string{"F: toggle full view"}, api.DimStyle),
+    })
     } else {
         text  = TextFrom("pres ? to see keys", api.DimStyle)
     }
